@@ -2,10 +2,13 @@ package com.cipher.caesar;
 
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.IOException;
 import java.util.*;
 
+@Controller
 public class CaesarCipherController {
     ////member variables
     //通常のアルファベット
@@ -18,6 +21,16 @@ public class CaesarCipherController {
 
     //constructor
     public CaesarCipherController(){}
+
+    @GetMapping("/encode")
+    public String returnEncodePage(){
+        return "/encode";
+    }
+
+    @GetMapping("/decode")
+    public String returnDecodePage(){
+        return "/decode";
+    }
 
     public String encode(String plainText, int n){
         plainText = plainText.toLowerCase();
