@@ -4,6 +4,7 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
 import java.util.*;
@@ -30,6 +31,13 @@ public class CaesarCipherController {
     @GetMapping("/decode")
     public String returnDecodePage(){
         return "/decode";
+    }
+
+    @PostMapping("/decode")
+    public String test(String text){
+        System.out.println("for check**********************");
+        System.out.println(text);
+        return "redirect:/decode";
     }
 
     public String encode(String plainText, int n){

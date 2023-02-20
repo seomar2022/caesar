@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
     <h1>Decode</h1>
-    <textarea placeholder="入力"></textarea>
-    <button>複合</button>
+    <form action="/decode" method="post">
+        <textarea name="text" placeholder="入力"></textarea>
+        <button type="submit">複合</button>
+    </form>
 </body>
 </html>
