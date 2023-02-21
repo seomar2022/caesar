@@ -33,12 +33,7 @@ public class CaesarCipherController {
         return "/decode";
     }
 
-    @PostMapping("/decode")
-    public String test(String text){
-        System.out.println("for check**********************");
-        System.out.println(text);
-        return "redirect:/decode";
-    }
+
 
     public String encode(String plainText, int n){
         plainText = plainText.toLowerCase();
@@ -47,19 +42,23 @@ public class CaesarCipherController {
 
     //overloading
     //int nが指定されなかった場合は１以上、２６以下の定数の中で、ランダムに適用する
+    @PostMapping("/encode")
     public String encode(String plainText){
+        System.out.println("22222222222222222222222222222");
+        System.out.println(plainText);
         Random random = new Random();
         plainText = plainText.toLowerCase();
-        return apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1));
+       // return apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1));
+        return "redirect:/encode";
     }
 
-
     //正解の可能性が高い順にreturn
-    public String[] decode(String ciphertext){
+    @PostMapping("/decode")
+    public String decode(String cipherText){
         HashMap<String, Integer> potentialAnswerWithScore = new HashMap<>(); //点数と単語を一緒に入れとく
 
         for(int i=0; i<plainAlphabet.length; i++){
-            String potentialAnswer = encode(ciphertext, i);
+            String potentialAnswer = encode(cipherText, i);
             //System.out.println(potentialAnswer);
             potentialAnswerWithScore.put(potentialAnswer, searchForWord(potentialAnswer));
             //System.out.println("====================");
@@ -84,7 +83,8 @@ public class CaesarCipherController {
           */
 
         System.out.println(Arrays.toString(sortedPotentialAnswer));
-        return sortedPotentialAnswer;
+        //return sortedPotentialAnswer;
+        return "redirect:/decode";
     }
 
     //平文の各文字を辞書順でn文字分ずらして暗号文とするmethod
