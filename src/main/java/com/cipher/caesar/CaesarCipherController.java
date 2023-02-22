@@ -3,6 +3,7 @@ package com.cipher.caesar;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -24,7 +25,8 @@ public class CaesarCipherController {
     public CaesarCipherController(){}
 
     @GetMapping("/encode")
-    public String returnEncodePage(){
+    public String returnEncodePage(Model model){
+        model.addAttribute("chk", "chk");
         return "/encode";
     }
 
@@ -43,12 +45,15 @@ public class CaesarCipherController {
     //overloading
     //int nが指定されなかった場合は１以上、２６以下の定数の中で、ランダムに適用する
     @PostMapping("/encode")
-    public String encode(String plainText){
+    public String encode(String plainText, Model model){
+
         System.out.println("22222222222222222222222222222");
         System.out.println(plainText);
         Random random = new Random();
         plainText = plainText.toLowerCase();
        // return apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1));
+
+      //  model.addAttribute("chk", "chk");
         return "redirect:/encode";
     }
 

@@ -8,8 +8,10 @@
     <h1>Encode</h1>
     <form action="/encode" method="post">
         <textarea name="plainText" placeholder="入力"></textarea>
+        <input type="number" name="favnum" min="1" max="25">
         <button>暗号化</button>
     </form>
 
+    <h1 th:text="${chk}"></h1>
 </body>
 </html>
