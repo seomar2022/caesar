@@ -10,5 +10,13 @@
         <textarea name="cipherText" placeholder="入力"></textarea>
         <button type="submit">復号</button>
     </form>
+
+    <p>lipps lettc asvph</p>
+    <p>rovvy uytswk</p>
+
+    <h1>結果</h1>
+    <div th:each="sortedPotentialAnswer : ${sortedPotentialAnswers}">
+        <li th:text="${sortedPotentialAnswer}"></li>
+    </div>
 </body>
 </html>

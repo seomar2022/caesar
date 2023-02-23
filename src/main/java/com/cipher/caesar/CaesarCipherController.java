@@ -61,7 +61,7 @@ public class CaesarCipherController {
 
     //正解の可能性が高い順にreturn
     @PostMapping("/decode")
-    public String decode(String cipherText){
+    public String decode(String cipherText, RedirectAttributes redirectAttributes){
         HashMap<String, Integer> potentialAnswerWithScore = new HashMap<>(); //点数と単語を一緒に入れとく
 
         for(int i=0; i<plainAlphabet.length; i++){
@@ -77,20 +77,22 @@ public class CaesarCipherController {
         //keySetListの要素の大きさを比較し、大きい順でkeySetListに格納する
         Collections.sort(keySetList, (o1, o2) -> (potentialAnswerWithScore.get(o2).compareTo(potentialAnswerWithScore.get(o1))));
 
-        String[] sortedPotentialAnswer = new String[plainAlphabet.length];
+        String[] sortedPotentialAnswers = new String[plainAlphabet.length];
 
         int i = 0;
         for(String key : keySetList) {
             //System.out.println("key: " + key + "| value: " + potentialAnswerWithScore.get(key));
-            sortedPotentialAnswer[i] = key;
+            sortedPotentialAnswers[i] = key;
             i++;
         }
         /*Collections.sort(keySetList, (o1, o2) -> (map.get(o2).compareTo(map.get(o1))));
           keySetListを(o1, o2) -> (map.get(o2).compareTo(map.get(o1)))を基準に並び替える。
           */
 
-        System.out.println(Arrays.toString(sortedPotentialAnswer));
-        //return sortedPotentialAnswer;
+        System.out.println(Arrays.toString(sortedPotentialAnswers));
+        redirectAttributes.addFlashAttribute("sortedPotentialAnswers", sortedPotentialAnswers);
+
+        //return sortedPotentialAnswers;
         return "redirect:/decode";
     }
 
