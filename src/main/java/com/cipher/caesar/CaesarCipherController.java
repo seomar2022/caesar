@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.*;
@@ -26,7 +27,7 @@ public class CaesarCipherController {
 
     @GetMapping("/encode")
     public String returnEncodePage(Model model){
-        model.addAttribute("chk", "chk");
+        //model.addAttribute("chk", "chk");
         return "/encode";
     }
 
@@ -42,10 +43,11 @@ public class CaesarCipherController {
         return apply(plainText, switchAlphabetPosition(n));
     }
 
+
     //overloading
     //int nが指定されなかった場合は１以上、２６以下の定数の中で、ランダムに適用する
     @PostMapping("/encode")
-    public String encode(String plainText, Model model){
+    public String encode(String plainText, RedirectAttributes redirectAttributes){
 
         System.out.println("22222222222222222222222222222");
         System.out.println(plainText);
@@ -53,7 +55,7 @@ public class CaesarCipherController {
         plainText = plainText.toLowerCase();
        // return apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1));
 
-      //  model.addAttribute("chk", "chk");
+        redirectAttributes.addFlashAttribute("apply", apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1)));
         return "redirect:/encode";
     }
 
