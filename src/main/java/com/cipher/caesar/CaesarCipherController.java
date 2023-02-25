@@ -26,8 +26,7 @@ public class CaesarCipherController {
     public CaesarCipherController(){}
 
     @GetMapping("/encode")
-    public String returnEncodePage(Model model){
-        //model.addAttribute("chk", "chk");
+    public String returnEncodePage(){
         return "/encode";
     }
 
