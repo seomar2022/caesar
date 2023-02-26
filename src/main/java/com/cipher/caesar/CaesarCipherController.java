@@ -37,9 +37,9 @@ public class CaesarCipherController {
 
 
 
-    public String encode(String plainText, int n){
+    public String encode(String plainText, int shift){
         plainText = plainText.toLowerCase();
-        return apply(plainText, switchAlphabetPosition(n));
+        return apply(plainText, switchAlphabetPosition(shift));
     }
 
 
@@ -96,9 +96,9 @@ public class CaesarCipherController {
     }
 
     //平文の各文字を辞書順でn文字分ずらして暗号文とするmethod
-    public Character [] switchAlphabetPosition(int n){
+    public Character [] switchAlphabetPosition(int shift){
         for(int i = 0; i<plainAlphabet.length; i++){
-            cipherAlphabet[i] = plainAlphabet[(i+n) % plainAlphabet.length];
+            cipherAlphabet[shift] = plainAlphabet[(i+shift) % plainAlphabet.length];
         }
         return  cipherAlphabet;
     }
