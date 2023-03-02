@@ -98,7 +98,7 @@ public class CaesarCipherController {
     //平文の各文字を辞書順でn文字分ずらして暗号文とするmethod
     public Character [] switchAlphabetPosition(int shift){
         for(int i = 0; i<plainAlphabet.length; i++){
-            cipherAlphabet[shift] = plainAlphabet[(i+shift) % plainAlphabet.length];
+            cipherAlphabet[i] = plainAlphabet[(i+shift) % plainAlphabet.length];
         }
         return  cipherAlphabet;
     }
