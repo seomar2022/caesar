@@ -5,7 +5,9 @@ import org.jsoup.Jsoup;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -37,7 +39,8 @@ public class CaesarCipherController {
 
 
 
-    public String encode(String plainText, int shift){
+    @PostMapping("/encode/{shift}")
+    public String encode(String plainText, @PathVariable("shift") int shift){
         plainText = plainText.toLowerCase();
         return apply(plainText, switchAlphabetPosition(shift));
     }
@@ -46,9 +49,11 @@ public class CaesarCipherController {
     //overloading
     //int nが指定されなかった場合は１以上、２６以下の定数の中で、ランダムに適用する
     @PostMapping("/encode")
-    public String encode(String plainText, RedirectAttributes redirectAttributes){
+    public String encode(String plainText, RedirectAttributes redirectAttributes, @RequestParam(name = "shift") int shift){
+
 
         System.out.println("22222222222222222222222222222");
+        System.out.println(shift);
         System.out.println(plainText);
         Random random = new Random();
         plainText = plainText.toLowerCase();
