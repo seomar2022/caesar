@@ -49,7 +49,7 @@ public class CaesarCipherController {
     //overloading
     //int nが指定されなかった場合は１以上、２６以下の定数の中で、ランダムに適用する
     @PostMapping("/encode")
-    public String encode(String plainText, RedirectAttributes redirectAttributes, @RequestParam(name = "shift") int shift){
+    public String encode(String plainText, RedirectAttributes redirectAttributes, int shift){
 
 
         System.out.println("22222222222222222222222222222");
@@ -59,7 +59,14 @@ public class CaesarCipherController {
         plainText = plainText.toLowerCase();
        // return apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1));
 
-        redirectAttributes.addFlashAttribute("apply", apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1)));
+        String encodedResult;
+
+        if (shift == 0){
+            encodedResult = apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1));
+        }else{
+            encodedResult = apply(plainText, switchAlphabetPosition(shift));
+        }
+        redirectAttributes.addFlashAttribute("apply", encodedResult);
         return "redirect:/encode";
     }
 

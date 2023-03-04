@@ -9,7 +9,8 @@
 <body>
 <div class="container mt-3">
     <h1>Encode</h1>
-    <form action="/encode" method="post" onsubmit="checkShift()">//onsubmit属性は、フォームが送信される直前に実行されるJavaScript関数を指定
+    <form action="/encode" method="post" onsubmit="checkShift()">
+<!--onsubmit属性は、フォームが送信される直前に実行されるJavaScript関数を指定-->
         <textarea name="plainText" placeholder="入力" class="form-control mt-3" rows="1"></textarea>
         <input type="number" name="shift" min="1" max="25" class="form-control mt-3">
         <button class="btn btn-success mt-3">暗号化</button>
@@ -22,8 +23,8 @@
 
 <script>
 function checkShift() {
-    i shiftInput = document.getElementsByName("shift")[0];
-    if (shiftInput.value === null) {
+    var shiftInput = document.getElementsByName("shift")[0];
+    if (shiftInput.value === "") {//nullにしたら間違う
         shiftInput.value = 0;
     }
     return true;
