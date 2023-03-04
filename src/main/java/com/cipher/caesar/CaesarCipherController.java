@@ -38,9 +38,7 @@ public class CaesarCipherController {
     }
 
 
-
-    @PostMapping("/encode/{shift}")
-    public String encode(String plainText, @PathVariable("shift") int shift){
+    public String encode(String plainText, int shift){
         plainText = plainText.toLowerCase();
         return apply(plainText, switchAlphabetPosition(shift));
     }
@@ -51,22 +49,19 @@ public class CaesarCipherController {
     @PostMapping("/encode")
     public String encode(String plainText, RedirectAttributes redirectAttributes, int shift){
 
-
-        System.out.println("22222222222222222222222222222");
         System.out.println(shift);
         System.out.println(plainText);
         Random random = new Random();
         plainText = plainText.toLowerCase();
-       // return apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1));
 
         String encodedResult;
 
-        if (shift == 0){
+        if (shift == 0){ //shiftが指定されてない場合はランダムに
             encodedResult = apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1));
-        }else{
+        }else{//shiftが指定された場合
             encodedResult = apply(plainText, switchAlphabetPosition(shift));
         }
-        redirectAttributes.addFlashAttribute("apply", encodedResult);
+        redirectAttributes.addFlashAttribute("encodedResult", encodedResult);
         return "redirect:/encode";
     }
 
