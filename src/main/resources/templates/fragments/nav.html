@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="navFragment">
+
+  <div class="container mt-3">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/index}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/encode}">Encode</a>
+        <!--                <a class="nav-link active" aria-current="page" th:href="@{/encode}">Encode</a>-->
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"th:href="@{/decode}">Decode</a>
+      </li>
+    </ul>
+  </div>
+</th:block>
+
+
+</html>
