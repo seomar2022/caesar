@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<th:block th:replace="~{fragments/header :: headerFragment('encode')}"></th:block>
 <body>
 <th:block th:replace="fragments/nav :: navFragment"></th:block>
 <div class="container mt-3">
