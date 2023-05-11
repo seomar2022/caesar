@@ -3,11 +3,8 @@ package com.cipher.caesar;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -38,10 +35,10 @@ public class CaesarCipherController {
     }
 
 
-    public String encode(String plainText, int shift){
-        plainText = plainText.toLowerCase();
-        return apply(plainText, switchAlphabetPosition(shift));
-    }
+//    public String encode(String plainText, int shift){
+//        plainText = plainText.toLowerCase();
+//        return apply(plainText, shift);
+//    }
 
 
     //overloading
@@ -49,17 +46,17 @@ public class CaesarCipherController {
     @PostMapping("/encode")
     public String encode(String plainText, RedirectAttributes redirectAttributes, int shift){
 
-        System.out.println(shift);
-        System.out.println(plainText);
+        //      System.out.println(shift);
+        //      System.out.println(plainText);
         Random random = new Random();
         plainText = plainText.toLowerCase();
 
         String encodedResult;
 
         if (shift == 0){ //shiftが指定されてない場合はランダムに
-            encodedResult = apply(plainText, switchAlphabetPosition(random.nextInt(plainAlphabet.length) + 1));
+            encodedResult = apply(plainText, random.nextInt(plainAlphabet.length) + 1);
         }else{//shiftが指定された場合
-            encodedResult = apply(plainText, switchAlphabetPosition(shift));
+            encodedResult = apply(plainText, shift);
         }
         redirectAttributes.addFlashAttribute("encodedResult", encodedResult);
         return "redirect:/encode";
@@ -71,7 +68,7 @@ public class CaesarCipherController {
         HashMap<String, Integer> potentialAnswerWithScore = new HashMap<>(); //点数と単語を一緒に入れとく
 
         for(int i=0; i<plainAlphabet.length; i++){
-            String potentialAnswer = encode(cipherText, i);
+            String potentialAnswer = apply(cipherText, i);
             //System.out.println(potentialAnswer);
             potentialAnswerWithScore.put(potentialAnswer, searchForWord(potentialAnswer));
             //System.out.println("====================");
@@ -103,18 +100,19 @@ public class CaesarCipherController {
     }
 
     //平文の各文字を辞書順でn文字分ずらして暗号文とするmethod
-    public Character [] switchAlphabetPosition(int shift){
-        for(int i = 0; i<plainAlphabet.length; i++){
-            cipherAlphabet[i] = plainAlphabet[(i+shift) % plainAlphabet.length];
-        }
-        return  cipherAlphabet;
-    }
+//    public Character [] switchAlphabetPosition(int shift){
+//        for(int i = 0; i<plainAlphabet.length; i++){
+//            cipherAlphabet[i] = plainAlphabet[(i+shift) % plainAlphabet.length];
+//        }
+//        return  cipherAlphabet;
+//    }
 
     //n文字分ずらしたアルファベットを適応するmethod
-    public String apply(String plainText, Character [] cipherAlphabet){
+    public String apply(String plainText, int shift){
 
+        plainText = plainText.toLowerCase();
         //indexOfを使うため、CharacterListをArrayListに変換
-        ArrayList<Character> plainAlphabetList = new ArrayList<>(Arrays.asList(plainAlphabet));
+      //  ArrayList<Character> plainAlphabetList = new ArrayList<>(Arrays.asList(plainAlphabet));
 
         //暗号化された文字を入れるcharArrayを作る。lengthはplainTextと同じ。
         char [] encryptionArray = new char[plainText.length()];
@@ -123,12 +121,13 @@ public class CaesarCipherController {
         //平文から一つずつ文字を出して、その文字がplainAlphabetListの何番目に位置しているかを検索。
         // そして、同じ位置のcipherAlphabetの文字をencryptionArrayに入れる。
         for(char letter: plainText.toCharArray()){  //for文を使うため、StringをCharArrayにする。
-            int j = plainAlphabetList.indexOf(letter);
-            if(j == -1) {
-                encryptionArray[i] = ' ';
-            }else {
-                encryptionArray[i] = cipherAlphabet[j];
-            }
+//            int j = plainAlphabetList.indexOf(letter);
+//            if(j == -1) {
+//                encryptionArray[i] = ' ';
+//            }else {
+//                encryptionArray[i] = cipherAlphabet[j];
+//            }
+            encryptionArray[i] = (char)((int)letter + shift);
 
             i++; //encryptionArrayの次の場所に移る。
         }
