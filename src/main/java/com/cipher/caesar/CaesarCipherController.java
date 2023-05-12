@@ -13,13 +13,7 @@ import java.util.*;
 @Controller
 public class CaesarCipherController {
     ////member variables
-    //通常のアルファベット
-    Character [] plainAlphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-            'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-
-    //暗号化アルファベット
-    Character [] cipherAlphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-            'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    public static final int ALPHABET_COUNT = 26;
 
     //constructor
     public CaesarCipherController(){}
@@ -35,28 +29,20 @@ public class CaesarCipherController {
     }
 
 
-//    public String encode(String plainText, int shift){
-//        plainText = plainText.toLowerCase();
-//        return apply(plainText, shift);
-//    }
-
-
     //overloading
     //int nが指定されなかった場合は１以上、２６以下の定数の中で、ランダムに適用する
     @PostMapping("/encode")
     public String encode(String plainText, RedirectAttributes redirectAttributes, int shift){
 
-        //      System.out.println(shift);
-        //      System.out.println(plainText);
         Random random = new Random();
         plainText = plainText.toLowerCase();
 
         String encodedResult;
 
         if (shift == 0){ //shiftが指定されてない場合はランダムに
-            encodedResult = apply(plainText, random.nextInt(plainAlphabet.length) + 1);
+            encodedResult = shiftAlphabet(plainText, random.nextInt(ALPHABET_COUNT) + 1);
         }else{//shiftが指定された場合
-            encodedResult = apply(plainText, shift);
+            encodedResult = shiftAlphabet(plainText, shift);
         }
         redirectAttributes.addFlashAttribute("encodedResult", encodedResult);
         return "redirect:/encode";
@@ -67,8 +53,8 @@ public class CaesarCipherController {
     public String decode(String cipherText, RedirectAttributes redirectAttributes){
         HashMap<String, Integer> potentialAnswerWithScore = new HashMap<>(); //点数と単語を一緒に入れとく
 
-        for(int i=0; i<plainAlphabet.length; i++){
-            String potentialAnswer = apply(cipherText, i);
+        for(int i=0; i<ALPHABET_COUNT; i++){
+            String potentialAnswer = shiftAlphabet(cipherText, i);
             //System.out.println(potentialAnswer);
             potentialAnswerWithScore.put(potentialAnswer, searchForWord(potentialAnswer));
             //System.out.println("====================");
@@ -80,7 +66,7 @@ public class CaesarCipherController {
         //keySetListの要素の大きさを比較し、大きい順でkeySetListに格納する
         Collections.sort(keySetList, (o1, o2) -> (potentialAnswerWithScore.get(o2).compareTo(potentialAnswerWithScore.get(o1))));
 
-        String[] sortedPotentialAnswers = new String[plainAlphabet.length];
+        String[] sortedPotentialAnswers = new String[ALPHABET_COUNT];
 
         int i = 0;
         for(String key : keySetList) {
@@ -88,11 +74,8 @@ public class CaesarCipherController {
             sortedPotentialAnswers[i] = key;
             i++;
         }
-        /*Collections.sort(keySetList, (o1, o2) -> (map.get(o2).compareTo(map.get(o1))));
-          keySetListを(o1, o2) -> (map.get(o2).compareTo(map.get(o1)))を基準に並び替える。
-          */
 
-        System.out.println(Arrays.toString(sortedPotentialAnswers));
+      //  System.out.println(Arrays.toString(sortedPotentialAnswers));
         redirectAttributes.addFlashAttribute("sortedPotentialAnswers", sortedPotentialAnswers);
 
         //return sortedPotentialAnswers;
@@ -108,7 +91,7 @@ public class CaesarCipherController {
 //    }
 
     //n文字分ずらしたアルファベットを適応するmethod
-    public String apply(String plainText, int shift){
+    public String shiftAlphabet(String plainText, int shift){
 
         plainText = plainText.toLowerCase();
         //indexOfを使うため、CharacterListをArrayListに変換
