@@ -94,8 +94,6 @@ public class CaesarCipherController {
     public String shiftAlphabet(String plainText, int shift){
 
         plainText = plainText.toLowerCase();
-        //indexOfを使うため、CharacterListをArrayListに変換
-      //  ArrayList<Character> plainAlphabetList = new ArrayList<>(Arrays.asList(plainAlphabet));
 
         //暗号化された文字を入れるcharArrayを作る。lengthはplainTextと同じ。
         char [] encryptionArray = new char[plainText.length()];
@@ -104,12 +102,6 @@ public class CaesarCipherController {
         //平文から一つずつ文字を出して、その文字がplainAlphabetListの何番目に位置しているかを検索。
         // そして、同じ位置のcipherAlphabetの文字をencryptionArrayに入れる。
         for(char letter: plainText.toCharArray()){  //for文を使うため、StringをCharArrayにする。
-//            int j = plainAlphabetList.indexOf(letter);
-//            if(j == -1) {
-//                encryptionArray[i] = ' ';
-//            }else {
-//                encryptionArray[i] = cipherAlphabet[j];
-//            }
             encryptionArray[i] = (char)((int)letter + shift);
 
             i++; //encryptionArrayの次の場所に移る。
