@@ -4,7 +4,7 @@
 
 <body>
 
-    <div class="container mt-3">
+    <div class="container mt-7">
         <th:block th:replace="fragments/nav :: navFragment"></th:block>
         <h1>Decode</h1>
         <form action="/decode" method="post">
@@ -12,8 +12,23 @@
             <button type="submit" class="btn btn-success mt-3">復号</button>
         </form>
 
-        <p class="fs-4">入力されたテキストを、0から26までの数値でシフトして正解の候補テキストを作ります。次に、各テキストに含まれた単語を辞書で検索し、辞書に登録された単語なら、その単語が含まれたテキストのスコアに1を加算します。以下の結果は、スコアが高い順に単語を整列したものです。</p>
-        <p>lipps asvph</p>
+
+        <div class="accordion accordion-flush mt-3" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <strong>explanation</strong>
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <p class="fs-4">入力されたテキストを、0から25までの数値でシフトして正解の候補テキストを作ります。次に、各テキストに含まれた単語を辞書で検索し、辞書に登録された単語なら、その単語が含まれたテキストのスコアに1を加算します。以下の結果は、スコアが高い順に単語を整列したものです。イメージはehdg fxuwdlqを符号する過程の一部です。</p>
+                        <p>辞書：https://www.dictionary.com/browse/</p>
+                        <img th:src="@{/img/explanation2.jpg}" src="../static/img/explanation2.jpg" alt="explanation2" width="1000">
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <h1>結果</h1>
         <div th:each="sortedPotentialAnswer : ${sortedPotentialAnswers}">
