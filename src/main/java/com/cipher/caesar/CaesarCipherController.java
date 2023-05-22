@@ -28,12 +28,10 @@ public class CaesarCipherController {
         return "/decode";
     }
 
-
     //overloading
     //int nが指定されなかった場合は１以上、２６以下の定数の中で、ランダムに適用する
     @PostMapping("/encode")
     public String encode(String plainText, RedirectAttributes redirectAttributes, int shift){
-
         Random random = new Random();
         plainText = plainText.toLowerCase();
 
@@ -55,9 +53,9 @@ public class CaesarCipherController {
 
         for(int i=0; i<ALPHABET_COUNT; i++){
             String potentialAnswer = shiftAlphabet(cipherText, i);
-            //System.out.println(potentialAnswer);
+            System.out.println(potentialAnswer);
             potentialAnswerWithScore.put(potentialAnswer, searchForWord(potentialAnswer));
-            //System.out.println("====================");
+            System.out.println("====================");
         }
 
         ////searchForWord(potentialAnswer)のreturnが高い順で整列する
@@ -70,25 +68,17 @@ public class CaesarCipherController {
 
         int i = 0;
         for(String key : keySetList) {
-            //System.out.println("key: " + key + "| value: " + potentialAnswerWithScore.get(key));
+            System.out.println("key: " + key + "| value: " + potentialAnswerWithScore.get(key));
             sortedPotentialAnswers[i] = key;
             i++;
         }
 
-      //  System.out.println(Arrays.toString(sortedPotentialAnswers));
+        System.out.println(Arrays.toString(sortedPotentialAnswers));
         redirectAttributes.addFlashAttribute("sortedPotentialAnswers", sortedPotentialAnswers);
 
         //return sortedPotentialAnswers;
         return "redirect:/decode";
     }
-
-    //平文の各文字を辞書順でn文字分ずらして暗号文とするmethod
-//    public Character [] switchAlphabetPosition(int shift){
-//        for(int i = 0; i<plainAlphabet.length; i++){
-//            cipherAlphabet[i] = plainAlphabet[(i+shift) % plainAlphabet.length];
-//        }
-//        return  cipherAlphabet;
-//    }
 
     //n文字分ずらしたアルファベットを適応するmethod
     public String shiftAlphabet(String plainText, int shift){
@@ -102,12 +92,27 @@ public class CaesarCipherController {
         //平文から一つずつ文字を出して、その文字がplainAlphabetListの何番目に位置しているかを検索。
         // そして、同じ位置のcipherAlphabetの文字をencryptionArrayに入れる。
         for(char letter: plainText.toCharArray()){  //for文を使うため、StringをCharArrayにする。
-            encryptionArray[i] = (char)((int)letter + shift);
+            int unicode = 0;
+            if((int)letter != 32){//letterが空白ではない場合
+                unicode = (int)letter + shift;
+                while (unicode>122){
+                    unicode-=26;
+
+                }
+            }else {
+                unicode =32;
+            }
+
+            System.out.println("unicode->"+(char)unicode);
+
+            encryptionArray[i] = (char)unicode;
+
 
             i++; //encryptionArrayの次の場所に移る。
         }
         return new String(encryptionArray); //charArrayをStringに変換して、return
     }
+
 
     //単語が辞書にあったらscoreに１をたす。
     public int searchForWord(String potentialAnswer){
@@ -116,14 +121,14 @@ public class CaesarCipherController {
         String URL = "https://www.dictionary.com/browse/";
         for (int i = 0; i < splitPotentialAnswer.length; i++) {
             String searchedWord = splitPotentialAnswer[i];
-            // System.out.println(searchedWord);
+             System.out.println(searchedWord);
             try {
                 Jsoup.connect(URL + searchedWord).get();
                 score += 1;
-                // System.out.println("↑○　辞書にある単語");
+                 System.out.println("↑○　辞書にある単語");
             } catch (HttpStatusException httpStatusException) {
                 //IOExceptionの中にHttpStatusExceptionがあるので、IOExceptionより先にHttpStatusExceptionをcatch
-                //  System.out.println("↑X　辞書にない単語");
+                  System.out.println("↑X　辞書にない単語");
             } catch (IOException e) {
                 e.printStackTrace();
             }
