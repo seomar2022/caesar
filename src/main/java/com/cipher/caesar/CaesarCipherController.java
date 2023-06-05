@@ -53,9 +53,9 @@ public class CaesarCipherController {
 
         for(int i=0; i<ALPHABET_COUNT; i++){
             String potentialAnswer = shiftAlphabet(cipherText, i);
-            System.out.println(potentialAnswer);
+           // System.out.println(potentialAnswer);
             potentialAnswerWithScore.put(potentialAnswer, searchForWord(potentialAnswer));
-            System.out.println("====================");
+           // System.out.println("====================");
         }
 
         ////searchForWord(potentialAnswer)のreturnが高い順で整列する
@@ -68,12 +68,12 @@ public class CaesarCipherController {
 
         int i = 0;
         for(String key : keySetList) {
-            System.out.println("key: " + key + "| value: " + potentialAnswerWithScore.get(key));
+       //     System.out.println("key: " + key + "| value: " + potentialAnswerWithScore.get(key));
             sortedPotentialAnswers[i] = key;
             i++;
         }
 
-        System.out.println(Arrays.toString(sortedPotentialAnswers));
+    //    System.out.println(Arrays.toString(sortedPotentialAnswers));
         redirectAttributes.addFlashAttribute("sortedPotentialAnswers", sortedPotentialAnswers);
 
         //return sortedPotentialAnswers;
@@ -103,7 +103,7 @@ public class CaesarCipherController {
                 unicode =32;
             }
 
-            System.out.println("unicode->"+(char)unicode);
+          //  System.out.println("unicode->"+(char)unicode);
 
             encryptionArray[i] = (char)unicode;
 
@@ -121,14 +121,14 @@ public class CaesarCipherController {
         String URL = "https://www.dictionary.com/browse/";
         for (int i = 0; i < splitPotentialAnswer.length; i++) {
             String searchedWord = splitPotentialAnswer[i];
-             System.out.println(searchedWord);
+            // System.out.println(searchedWord);
             try {
                 Jsoup.connect(URL + searchedWord).get();
                 score += 1;
-                 System.out.println("↑○　辞書にある単語");
+              //   System.out.println("↑○　辞書にある単語");
             } catch (HttpStatusException httpStatusException) {
                 //IOExceptionの中にHttpStatusExceptionがあるので、IOExceptionより先にHttpStatusExceptionをcatch
-                  System.out.println("↑X　辞書にない単語");
+               //   System.out.println("↑X　辞書にない単語");
             } catch (IOException e) {
                 e.printStackTrace();
             }
